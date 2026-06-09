@@ -13,8 +13,18 @@ export default function Login({ onLogin }) {
     '89.012.345-6': { pass: 'cliente3', nombre: 'Comercial Tres Ríos Ltda.',   empresa: '89.012.345-6', regimen: '14A General', giro: 'Comercio al por menor' },
   };
 
+  function normalizarRut(r) {
+    return r.replace(/\./g, '').toUpperCase().trim();
+  }
+
   function ingresar() {
-    const key = rol === 'admin' ? 'admin' : rut.trim();
+    let key;
+    if (rol === 'admin') {
+      key = 'admin';
+    } else {
+      const rutNorm = normalizarRut(rut);
+      key = Object.keys(CUENTAS).find(k => normalizarRut(k) === rutNorm);
+    }
     const cuenta = CUENTAS[key];
     if (!cuenta || cuenta.pass !== pass) {
       setError('RUT o contraseña incorrectos');
