@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
+import { X, Lightbulb, Download } from 'lucide-react';
 
 function clp(v){return new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(v);}
 
@@ -229,7 +230,7 @@ export default function Remuneraciones({ sesion }) {
           <p style={s.sub}>Liquidaciones {mes} · {trabajadores.length} trabajadores</p>
         </div>
         <button style={s.btnAdd} onClick={()=>setMostrarForm(v=>!v)}>
-          {mostrarForm?'✕ Cancelar':'+ Agregar trabajador'}
+          {mostrarForm?<><X size={14}/> Cancelar</>:'+ Agregar trabajador'}
         </button>
       </div>
 
@@ -240,7 +241,7 @@ export default function Remuneraciones({ sesion }) {
       </div>
 
       <div style={s.tipBox}>
-        <span style={s.tipIcon}>★</span>
+        <span style={s.tipIcon}><Lightbulb size={16}/></span>
         <div>
           <p style={s.tipText}><strong>Optimización:</strong> La planilla de remuneraciones es gasto tributario para la empresa. Considera gratificación legal (25% de remuneraciones o 4.75 IMM), ya que es deducible. El pago de AFP y salud reduce la base del trabajador pero no la de la empresa.</p>
         </div>
@@ -289,7 +290,7 @@ export default function Remuneraciones({ sesion }) {
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
               <p style={{...s.liquidTitle,margin:0}}>Liquidación — {selData.nombre}</p>
               <button style={s.btnPDF} onClick={()=>generarPDF(sesion,selData,selCalc)}>
-                ↓ Descargar PDF
+                <Download size={14}/> Descargar PDF
               </button>
             </div>
             <div style={s.liquidRow}><span style={s.liquidLabel}>Sueldo base</span><span style={s.liquidValor}>{clp(selData.sueldo)}</span></div>
@@ -311,40 +312,40 @@ export default function Remuneraciones({ sesion }) {
 
 const s = {
   wrap:{maxWidth:'900px'},header:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'1.5rem'},
-  titulo:{fontFamily:"'Syne',sans-serif",fontWeight:'800',fontSize:'1.75rem',color:'#E8EDF2',letterSpacing:'-0.04em'},
-  sub:{fontSize:'0.8rem',color:'#4A5A6A',marginTop:'0.3rem',fontFamily:"'DM Sans',sans-serif"},
-  btnAdd:{padding:'0.6rem 1.2rem',backgroundColor:'#00C896',border:'none',WebkitAppearance:'none',borderRadius:'8px',color:'#0A0E14',fontFamily:"'DM Sans',sans-serif",fontWeight:'600',fontSize:'0.85rem',cursor:'pointer'},
+  titulo:{fontFamily:"'Montserrat',sans-serif",fontWeight:'800',fontSize:'1.75rem',color:'#E8EDF2',letterSpacing:'-0.04em'},
+  sub:{fontSize:'0.8rem',color:'#4A5A6A',marginTop:'0.3rem',fontFamily:"'Montserrat',sans-serif"},
+  btnAdd:{padding:'0.6rem 1.2rem',backgroundColor:'#00C896',border:'none',WebkitAppearance:'none',borderRadius:'8px',color:'#0A0E14',fontFamily:"'Montserrat',sans-serif",fontWeight:'600',fontSize:'0.85rem',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'0.35rem'},
   kpiGrid:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:'1rem',marginBottom:'1.25rem'},
   kpi:{backgroundColor:'#111820',border:'1px solid #1E2D3D',borderRadius:'12px',padding:'1rem 1.25rem'},
-  kpiLabel:{fontSize:'0.68rem',color:'#4A5A6A',textTransform:'uppercase',letterSpacing:'0.07em',fontFamily:"'DM Sans',sans-serif",fontWeight:'600',marginBottom:'0.35rem'},
-  kpiValor:{fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'1.3rem',color:'#E8EDF2'},
-  kpiSub:{fontSize:'0.7rem',color:'#4A5A6A',fontFamily:"'DM Sans',sans-serif",marginTop:'0.2rem'},
+  kpiLabel:{fontSize:'0.68rem',color:'#4A5A6A',textTransform:'uppercase',letterSpacing:'0.07em',fontFamily:"'Montserrat',sans-serif",fontWeight:'600',marginBottom:'0.35rem'},
+  kpiValor:{fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'1.3rem',color:'#E8EDF2'},
+  kpiSub:{fontSize:'0.7rem',color:'#4A5A6A',fontFamily:"'Montserrat',sans-serif",marginTop:'0.2rem'},
   tipBox:{display:'flex',gap:'0.7rem',backgroundColor:'rgba(245,166,35,0.07)',border:'1px solid rgba(245,166,35,0.2)',borderRadius:'10px',padding:'0.85rem 1rem',marginBottom:'1.25rem'},
   tipIcon:{color:'#F5A623',fontSize:'0.9rem',flexShrink:0,marginTop:'2px'},
-  tipText:{fontSize:'0.82rem',color:'#C8B060',fontFamily:"'DM Sans',sans-serif",lineHeight:1.6},
+  tipText:{fontSize:'0.82rem',color:'#C8B060',fontFamily:"'Montserrat',sans-serif",lineHeight:1.6},
   formCard:{backgroundColor:'#111820',border:'1px solid #1E2D3D',borderRadius:'14px',padding:'1.4rem',marginBottom:'1.25rem'},
-  formTitle:{fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'0.95rem',color:'#E8EDF2',marginBottom:'1rem'},
+  formTitle:{fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'0.95rem',color:'#E8EDF2',marginBottom:'1rem'},
   formGrid:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.9rem',marginBottom:'0.75rem'},
   campo:{display:'flex',flexDirection:'column',gap:'0.4rem'},
-  label:{fontSize:'0.7rem',color:'#7A8FA6',fontFamily:"'DM Sans',sans-serif",fontWeight:'500',textTransform:'uppercase',letterSpacing:'0.05em'},
-  input:{backgroundColor:'#0A0E14',border:'1px solid #1E2D3D',borderRadius:'8px',padding:'0.6rem 0.85rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'0.875rem',outline:'none'},
-  btnGuardar:{padding:'0.6rem 1.4rem',backgroundColor:'rgba(0,200,150,0.1)',border:'1px solid rgba(0,200,150,0.3)',WebkitAppearance:'none',borderRadius:'8px',color:'#00C896',fontFamily:"'DM Sans',sans-serif",fontWeight:'600',fontSize:'0.85rem',cursor:'pointer'},
+  label:{fontSize:'0.7rem',color:'#7A8FA6',fontFamily:"'Montserrat',sans-serif",fontWeight:'500',textTransform:'uppercase',letterSpacing:'0.05em'},
+  input:{backgroundColor:'#0A0E14',border:'1px solid #1E2D3D',borderRadius:'8px',padding:'0.6rem 0.85rem',color:'#E8EDF2',fontFamily:"'Montserrat',sans-serif",fontSize:'0.875rem',outline:'none'},
+  btnGuardar:{padding:'0.6rem 1.4rem',backgroundColor:'rgba(0,200,150,0.1)',border:'1px solid rgba(0,200,150,0.3)',WebkitAppearance:'none',borderRadius:'8px',color:'#00C896',fontFamily:"'Montserrat',sans-serif",fontWeight:'600',fontSize:'0.85rem',cursor:'pointer'},
   listaGrid:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'},
   lista:{backgroundColor:'#111820',border:'1px solid #1E2D3D',borderRadius:'14px',overflow:'hidden'},
-  listaTitulo:{fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'0.88rem',color:'#E8EDF2',padding:'1rem 1.25rem',borderBottom:'1px solid #1E2D3D'},
+  listaTitulo:{fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'0.88rem',color:'#E8EDF2',padding:'1rem 1.25rem',borderBottom:'1px solid #1E2D3D'},
   listaItem:{display:'flex',alignItems:'center',gap:'0.75rem',padding:'0.9rem 1.25rem',borderBottom:'1px solid #0D1520',cursor:'pointer',transition:'background 0.15s'},
   listaItemActivo:{backgroundColor:'rgba(0,200,150,0.06)',borderLeft:'2px solid #00C896'},
-  listaAvatar:{width:'32px',height:'32px',borderRadius:'50%',backgroundColor:'#1A2D3D',border:'1px solid #1E2D3D',display:'flex',alignItems:'center',justifyContent:'center',color:'#7A8FA6',fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'0.7rem',flexShrink:0},
+  listaAvatar:{width:'32px',height:'32px',borderRadius:'50%',backgroundColor:'#1A2D3D',border:'1px solid #1E2D3D',display:'flex',alignItems:'center',justifyContent:'center',color:'#7A8FA6',fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'0.7rem',flexShrink:0},
   listaInfo:{flex:1},
-  listaNombre:{fontSize:'0.85rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontWeight:'500'},
-  listaCargo:{fontSize:'0.72rem',color:'#4A5A6A',fontFamily:"'DM Sans',sans-serif"},
-  listaSueldo:{fontSize:'0.85rem',color:'#C8D8E8',fontFamily:"'Syne',sans-serif",fontWeight:'600'},
+  listaNombre:{fontSize:'0.85rem',color:'#E8EDF2',fontFamily:"'Montserrat',sans-serif",fontWeight:'500'},
+  listaCargo:{fontSize:'0.72rem',color:'#4A5A6A',fontFamily:"'Montserrat',sans-serif"},
+  listaSueldo:{fontSize:'0.85rem',color:'#C8D8E8',fontFamily:"'Montserrat',sans-serif",fontWeight:'600'},
   liquidacion:{backgroundColor:'#111820',border:'1px solid #1E2D3D',borderRadius:'14px',padding:'1.4rem'},
-  liquidTitle:{fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'0.9rem',color:'#E8EDF2',marginBottom:'1rem'},
+  liquidTitle:{fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'0.9rem',color:'#E8EDF2',marginBottom:'1rem'},
   liquidRow:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.4rem 0'},
-  liquidLabel:{fontSize:'0.83rem',color:'#7A8FA6',fontFamily:"'DM Sans',sans-serif"},
-  liquidValor:{fontSize:'0.9rem',color:'#C8D8E8',fontFamily:"'Syne',sans-serif",fontWeight:'600'},
+  liquidLabel:{fontSize:'0.83rem',color:'#7A8FA6',fontFamily:"'Montserrat',sans-serif"},
+  liquidValor:{fontSize:'0.9rem',color:'#C8D8E8',fontFamily:"'Montserrat',sans-serif",fontWeight:'600'},
   liquidSep:{height:'1px',backgroundColor:'#1A2535',margin:'0.5rem 0'},
-  liquidAFP:{fontSize:'0.7rem',color:'#4A5A6A',fontFamily:"'DM Sans',sans-serif",marginTop:'0.75rem'},
-  btnPDF:{padding:'0.45rem 1rem',backgroundColor:'rgba(0,200,150,0.12)',border:'1px solid rgba(0,200,150,0.35)',WebkitAppearance:'none',borderRadius:'8px',color:'#00C896',fontFamily:"'DM Sans',sans-serif",fontWeight:'600',fontSize:'0.8rem',cursor:'pointer'},
+  liquidAFP:{fontSize:'0.7rem',color:'#4A5A6A',fontFamily:"'Montserrat',sans-serif",marginTop:'0.75rem'},
+  btnPDF:{padding:'0.45rem 1rem',backgroundColor:'rgba(0,200,150,0.12)',border:'1px solid rgba(0,200,150,0.35)',WebkitAppearance:'none',borderRadius:'8px',color:'#00C896',fontFamily:"'Montserrat',sans-serif",fontWeight:'600',fontSize:'0.8rem',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'0.35rem'},
 };

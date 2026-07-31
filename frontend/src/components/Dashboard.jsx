@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AlertTriangle, ArrowRight, Gem, CircleDot, Percent, Clock, DollarSign, Euro } from 'lucide-react';
 import TaxCard from './TaxCard.jsx';
 
 function formatCLP(value) {
@@ -51,7 +52,8 @@ export default function Dashboard({ onNavigate }) {
 
       {error && (
         <div style={styles.errorBanner}>
-          ⚠ {error} — inicia el backend con <code>cd backend && npm start</code>
+          <AlertTriangle size={15} style={{ flexShrink: 0 }} />
+          <span>{error} — inicia el backend con <code>cd backend && npm start</code></span>
         </div>
       )}
 
@@ -63,7 +65,7 @@ export default function Dashboard({ onNavigate }) {
           subtitle={indicadores ? `Actualizado ${formatDate(indicadores.uf?.fecha)}` : null}
           tag="Vigente"
           tagColor="green"
-          icon="◈"
+          icon={<Gem size={20} />}
           loading={loading}
         />
         <TaxCard
@@ -72,7 +74,7 @@ export default function Dashboard({ onNavigate }) {
           subtitle={indicadores ? `Actualizado ${formatDate(indicadores.utm?.fecha)}` : null}
           tag="Mensual"
           tagColor="blue"
-          icon="◉"
+          icon={<CircleDot size={20} />}
           loading={loading}
         />
         <TaxCard
@@ -81,7 +83,7 @@ export default function Dashboard({ onNavigate }) {
           subtitle="Tasa vigente Chile"
           tag="Fijo"
           tagColor="yellow"
-          icon="▣"
+          icon={<Percent size={20} />}
           loading={loading}
         />
         <TaxCard
@@ -90,7 +92,7 @@ export default function Dashboard({ onNavigate }) {
           subtitle="Declaración mensual IVA"
           tag="Próximo"
           tagColor="red"
-          icon="◷"
+          icon={<Clock size={20} />}
           loading={loading}
         />
         <TaxCard
@@ -99,7 +101,7 @@ export default function Dashboard({ onNavigate }) {
           subtitle={indicadores ? `Actualizado ${formatDate(indicadores.dolar?.fecha)}` : null}
           tag="BCCh"
           tagColor="blue"
-          icon="$"
+          icon={<DollarSign size={20} />}
           loading={loading}
         />
         <TaxCard
@@ -108,7 +110,7 @@ export default function Dashboard({ onNavigate }) {
           subtitle={indicadores ? `Actualizado ${formatDate(indicadores.euro?.fecha)}` : null}
           tag="BCCh"
           tagColor="blue"
-          icon="€"
+          icon={<Euro size={20} />}
           loading={loading}
         />
       </div>
@@ -121,7 +123,7 @@ export default function Dashboard({ onNavigate }) {
           El agente tiene acceso a la normativa tributaria chilena actualizada.
         </p>
         <button style={styles.ctaButton} onClick={() => onNavigate?.('Agente IA')}>
-          Consultar al agente →
+          Consultar al agente <ArrowRight size={16} />
         </button>
       </div>
     </div>
@@ -136,7 +138,7 @@ const styles = {
     marginBottom: '2rem',
   },
   pageTitle: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '800',
     fontSize: '1.75rem',
     color: '#E8EDF2',
@@ -146,7 +148,7 @@ const styles = {
     fontSize: '0.82rem',
     color: '#4A5A6A',
     marginTop: '0.3rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     textTransform: 'capitalize',
   },
   statusBadge: {
@@ -169,7 +171,7 @@ const styles = {
     fontSize: '0.75rem',
     fontWeight: '500',
     color: '#00C896',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   errorBanner: {
     backgroundColor: 'rgba(255,77,106,0.1)',
@@ -179,7 +181,10 @@ const styles = {
     color: '#FF4D6A',
     fontSize: '0.85rem',
     marginBottom: '1.5rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
   },
   grid: {
     display: 'grid',
@@ -195,7 +200,7 @@ const styles = {
     marginTop: '0.5rem',
   },
   sectionTitle: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '700',
     fontSize: '1.1rem',
     color: '#E8EDF2',
@@ -206,7 +211,7 @@ const styles = {
     fontSize: '0.875rem',
     color: '#7A8FA6',
     lineHeight: '1.65',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     maxWidth: '560px',
     marginBottom: '1.2rem',
   },
@@ -216,10 +221,13 @@ const styles = {
     border: '1px solid rgba(0,200,150,0.3)',
     borderRadius: '8px',
     color: '#00C896',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '500',
     fontSize: '0.875rem',
     cursor: 'pointer',
     transition: 'all 0.15s ease',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4rem',
   },
 };

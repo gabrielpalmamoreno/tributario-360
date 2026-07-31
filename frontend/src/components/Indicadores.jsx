@@ -72,7 +72,7 @@ export default function Indicadores() {
 const s = {
   header: { marginBottom: '2rem' },
   titulo: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '800',
     fontSize: '1.75rem',
     color: '#E8EDF2',
@@ -82,7 +82,7 @@ const s = {
     fontSize: '0.8rem',
     color: '#4A5A6A',
     marginTop: '0.3rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   tabla: {
     backgroundColor: '#111820',
@@ -100,7 +100,7 @@ const s = {
     color: '#4A5A6A',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   fila: {
     display: 'grid',
@@ -114,16 +114,16 @@ const s = {
     fontSize: '0.9rem',
     fontWeight: '500',
     color: '#E8EDF2',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   filaDesc: {
     fontSize: '0.75rem',
     color: '#4A5A6A',
     marginTop: '0.2rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   filaValor: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '700',
     fontSize: '1.05rem',
     color: '#00C896',
@@ -132,7 +132,7 @@ const s = {
   filaFecha: {
     fontSize: '0.8rem',
     color: '#7A8FA6',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   skel: {
     display: 'inline-block',

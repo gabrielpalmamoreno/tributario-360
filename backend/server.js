@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '15mb' }));
 
 app.get('/api/indicadores', async (req, res) => {
   try {
@@ -22,9 +22,9 @@ app.get('/api/indicadores', async (req, res) => {
 
 app.post('/api/agente', async (req, res) => {
   try {
-    const { pregunta } = req.body;
-    if (!pregunta) return res.status(400).json({ error: 'Falta el campo pregunta' });
-    const respuesta = await consultarAgente(pregunta);
+    const { pregunta, archivo } = req.body;
+    if (!pregunta && !archivo) return res.status(400).json({ error: 'Falta el campo pregunta' });
+    const respuesta = await consultarAgente(pregunta, archivo);
     res.json({ respuesta });
   } catch (error) {
     res.status(500).json({ error: 'Error en el agente', details: error.message });

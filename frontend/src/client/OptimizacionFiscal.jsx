@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Scale, ChevronUp, ChevronDown } from 'lucide-react';
 
 function clp(v){return new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(v);}
 
@@ -107,7 +108,7 @@ export default function OptimizacionFiscal({ sesion }) {
       </div>
 
       <div style={s.disclaimer}>
-        <span>⚖</span>
+        <span style={{ color: '#7AABF0', flexShrink: 0, display: 'flex', marginTop: '2px' }}><Scale size={16}/></span>
         <p style={s.disclaimerText}>Todas las estrategias están dentro del marco legal chileno vigente. La optimización fiscal aprovecha incentivos, vacíos y opciones expresamente contemplados en la Ley de Renta (LIR), Código Tributario y normativa SII. No constituye evasión tributaria.</p>
       </div>
 
@@ -167,7 +168,7 @@ export default function OptimizacionFiscal({ sesion }) {
               </div>
               <div style={s.estrategiaRight}>
                 {e.ahorroCLP > 0 && <p style={s.estrategiaAhorro}>~ {clp(e.ahorroCLP)}</p>}
-                <span style={s.expandIcon}>{expandido===e.id?'▲':'▼'}</span>
+                <span style={s.expandIcon}>{expandido===e.id?<ChevronUp size={16}/>:<ChevronDown size={16}/>}</span>
               </div>
             </div>
 
@@ -195,43 +196,43 @@ export default function OptimizacionFiscal({ sesion }) {
 const s = {
   wrap:{maxWidth:'860px'},
   header:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'1.25rem'},
-  titulo:{fontFamily:"'Syne',sans-serif",fontWeight:'800',fontSize:'1.75rem',color:'#E8EDF2',letterSpacing:'-0.04em'},
-  sub:{fontSize:'0.8rem',color:'#4A5A6A',marginTop:'0.3rem',fontFamily:"'DM Sans',sans-serif"},
+  titulo:{fontFamily:"'Montserrat',sans-serif",fontWeight:'800',fontSize:'1.75rem',color:'#E8EDF2',letterSpacing:'-0.04em'},
+  sub:{fontSize:'0.8rem',color:'#4A5A6A',marginTop:'0.3rem',fontFamily:"'Montserrat',sans-serif"},
   ahorroTotal:{backgroundColor:'rgba(0,200,150,0.08)',border:'1px solid rgba(0,200,150,0.2)',borderRadius:'12px',padding:'0.9rem 1.2rem',textAlign:'right'},
-  ahorroLabel:{fontSize:'0.65rem',color:'#00C896',textTransform:'uppercase',letterSpacing:'0.08em',fontFamily:"'DM Sans',sans-serif",fontWeight:'600'},
-  ahorroValor:{fontFamily:"'Syne',sans-serif",fontWeight:'800',fontSize:'1.4rem',color:'#00C896',letterSpacing:'-0.03em'},
-  ahorroSub:{fontSize:'0.68rem',color:'#4A8A70',fontFamily:"'DM Sans',sans-serif",marginTop:'0.1rem'},
+  ahorroLabel:{fontSize:'0.65rem',color:'#00C896',textTransform:'uppercase',letterSpacing:'0.08em',fontFamily:"'Montserrat',sans-serif",fontWeight:'600'},
+  ahorroValor:{fontFamily:"'Montserrat',sans-serif",fontWeight:'800',fontSize:'1.4rem',color:'#00C896',letterSpacing:'-0.03em'},
+  ahorroSub:{fontSize:'0.68rem',color:'#4A8A70',fontFamily:"'Montserrat',sans-serif",marginTop:'0.1rem'},
   disclaimer:{display:'flex',gap:'0.7rem',backgroundColor:'rgba(74,144,226,0.06)',border:'1px solid rgba(74,144,226,0.15)',borderRadius:'10px',padding:'0.85rem 1rem',marginBottom:'1.25rem',alignItems:'flex-start'},
-  disclaimerText:{fontSize:'0.78rem',color:'#7AABF0',fontFamily:"'DM Sans',sans-serif",lineHeight:1.6},
+  disclaimerText:{fontSize:'0.78rem',color:'#7AABF0',fontFamily:"'Montserrat',sans-serif",lineHeight:1.6},
   simulador:{backgroundColor:'#111820',border:'1px solid #1E2D3D',borderRadius:'14px',padding:'1.4rem',marginBottom:'1.25rem'},
-  simTitle:{fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'0.95rem',color:'#E8EDF2',marginBottom:'1rem'},
+  simTitle:{fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'0.95rem',color:'#E8EDF2',marginBottom:'1rem'},
   simGrid:{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:'0.85rem',alignItems:'flex-end'},
   campo:{display:'flex',flexDirection:'column',gap:'0.4rem'},
-  label:{fontSize:'0.68rem',color:'#7A8FA6',fontFamily:"'DM Sans',sans-serif",fontWeight:'500',textTransform:'uppercase',letterSpacing:'0.05em'},
-  input:{backgroundColor:'#0A0E14',border:'1px solid #1E2D3D',borderRadius:'8px',padding:'0.6rem 0.85rem',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",fontSize:'0.875rem',outline:'none'},
+  label:{fontSize:'0.68rem',color:'#7A8FA6',fontFamily:"'Montserrat',sans-serif",fontWeight:'500',textTransform:'uppercase',letterSpacing:'0.05em'},
+  input:{backgroundColor:'#0A0E14',border:'1px solid #1E2D3D',borderRadius:'8px',padding:'0.6rem 0.85rem',color:'#E8EDF2',fontFamily:"'Montserrat',sans-serif",fontSize:'0.875rem',outline:'none'},
   simResultado:{backgroundColor:'#0A0E14',border:'1px solid #1A2535',borderRadius:'10px',padding:'0.8rem 1rem'},
   simResultadoDestacado:{border:'1px solid rgba(245,166,35,0.3)'},
-  simResultLabel:{fontSize:'0.65rem',color:'#4A5A6A',textTransform:'uppercase',letterSpacing:'0.07em',fontFamily:"'DM Sans',sans-serif",marginBottom:'0.3rem'},
-  simResultValor:{fontFamily:"'Syne',sans-serif",fontWeight:'700',fontSize:'1.1rem',color:'#E8EDF2'},
+  simResultLabel:{fontSize:'0.65rem',color:'#4A5A6A',textTransform:'uppercase',letterSpacing:'0.07em',fontFamily:"'Montserrat',sans-serif",marginBottom:'0.3rem'},
+  simResultValor:{fontFamily:"'Montserrat',sans-serif",fontWeight:'700',fontSize:'1.1rem',color:'#E8EDF2'},
   filtrosRow:{display:'flex',flexWrap:'wrap',gap:'0.4rem',marginBottom:'1.25rem'},
-  filtroBtn:{padding:'0.35rem 0.85rem',borderRadius:'20px',border:'1px solid #1E2D3D',backgroundColor:'transparent',WebkitAppearance:'none',color:'#7A8FA6',fontFamily:"'DM Sans',sans-serif",fontSize:'0.78rem',cursor:'pointer'},
+  filtroBtn:{padding:'0.35rem 0.85rem',borderRadius:'20px',border:'1px solid #1E2D3D',backgroundColor:'transparent',WebkitAppearance:'none',color:'#7A8FA6',fontFamily:"'Montserrat',sans-serif",fontSize:'0.78rem',cursor:'pointer'},
   filtroBtnActivo:{backgroundColor:'rgba(0,200,150,0.1)',borderColor:'rgba(0,200,150,0.3)',color:'#00C896'},
   estrategiasList:{display:'flex',flexDirection:'column',gap:'0.6rem'},
   estrategiaCard:{backgroundColor:'#111820',border:'1px solid #1E2D3D',borderRadius:'12px',overflow:'hidden'},
   estrategiaHeader:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'1.1rem 1.3rem',cursor:'pointer'},
   estrategiaLeft:{flex:1},
   estrategiaRight:{display:'flex',alignItems:'center',gap:'1rem',flexShrink:0,marginLeft:'1rem'},
-  ahorroTag:{fontSize:'0.65rem',fontWeight:'700',padding:'2px 8px',borderRadius:'20px',border:'1px solid',fontFamily:"'DM Sans',sans-serif",marginRight:'0.5rem'},
-  catTag:{fontSize:'0.65rem',color:'#4A5A6A',backgroundColor:'#1A2535',padding:'2px 8px',borderRadius:'20px',fontFamily:"'DM Sans',sans-serif",marginRight:'0.6rem'},
-  estrategiaTitulo:{fontSize:'0.9rem',fontWeight:'600',color:'#E8EDF2',fontFamily:"'DM Sans',sans-serif",marginTop:'0.4rem'},
-  estrategiaLey:{fontSize:'0.72rem',color:'#4A5A6A',fontFamily:"'DM Sans',sans-serif",marginTop:'0.15rem'},
-  estrategiaAhorro:{fontSize:'0.82rem',fontWeight:'600',color:'#00C896',fontFamily:"'Syne',sans-serif"},
-  expandIcon:{fontSize:'0.7rem',color:'#4A5A6A'},
+  ahorroTag:{fontSize:'0.65rem',fontWeight:'700',padding:'2px 8px',borderRadius:'20px',border:'1px solid',fontFamily:"'Montserrat',sans-serif",marginRight:'0.5rem'},
+  catTag:{fontSize:'0.65rem',color:'#4A5A6A',backgroundColor:'#1A2535',padding:'2px 8px',borderRadius:'20px',fontFamily:"'Montserrat',sans-serif",marginRight:'0.6rem'},
+  estrategiaTitulo:{fontSize:'0.9rem',fontWeight:'600',color:'#E8EDF2',fontFamily:"'Montserrat',sans-serif",marginTop:'0.4rem'},
+  estrategiaLey:{fontSize:'0.72rem',color:'#4A5A6A',fontFamily:"'Montserrat',sans-serif",marginTop:'0.15rem'},
+  estrategiaAhorro:{fontSize:'0.82rem',fontWeight:'600',color:'#00C896',fontFamily:"'Montserrat',sans-serif"},
+  expandIcon:{display:'flex',color:'#4A5A6A'},
   estrategiaBody:{padding:'0 1.3rem 1.2rem',borderTop:'1px solid #1A2535',paddingTop:'1rem'},
-  estrategiaDesc:{fontSize:'0.84rem',color:'#C8D8E8',fontFamily:"'DM Sans',sans-serif",lineHeight:1.7,marginBottom:'1rem'},
+  estrategiaDesc:{fontSize:'0.84rem',color:'#C8D8E8',fontFamily:"'Montserrat',sans-serif",lineHeight:1.7,marginBottom:'1rem'},
   pasosWrap:{backgroundColor:'#0A0E14',borderRadius:'10px',padding:'0.9rem 1rem',border:'1px solid #1A2535'},
-  pasosTitle:{fontSize:'0.7rem',color:'#4A5A6A',textTransform:'uppercase',letterSpacing:'0.07em',fontFamily:"'DM Sans',sans-serif",fontWeight:'600',marginBottom:'0.6rem'},
+  pasosTitle:{fontSize:'0.7rem',color:'#4A5A6A',textTransform:'uppercase',letterSpacing:'0.07em',fontFamily:"'Montserrat',sans-serif",fontWeight:'600',marginBottom:'0.6rem'},
   pasoItem:{display:'flex',gap:'0.6rem',alignItems:'flex-start',marginBottom:'0.45rem'},
   pasoNum:{width:'18px',height:'18px',borderRadius:'50%',backgroundColor:'rgba(0,200,150,0.15)',color:'#00C896',fontSize:'0.65rem',fontWeight:'700',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,marginTop:'1px'},
-  pasoText:{fontSize:'0.82rem',color:'#7A8FA6',fontFamily:"'DM Sans',sans-serif",lineHeight:1.5},
+  pasoText:{fontSize:'0.82rem',color:'#7A8FA6',fontFamily:"'Montserrat',sans-serif",lineHeight:1.5},
 };

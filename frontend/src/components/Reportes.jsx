@@ -120,7 +120,7 @@ export default function Reportes() {
                 <span style={s.formularioBadge}>{o.formulario}</span>
                 <span style={s.tablaTexto}>{o.descripcion}</span>
                 <span style={{ ...s.tablaTexto, color: '#7A8FA6' }}>{o.vencimiento}</span>
-                <span style={{ ...s.tablaTexto, fontFamily: "'Syne', sans-serif", fontWeight: '600', color: o.monto ? '#E8EDF2' : '#4A5A6A' }}>
+                <span style={{ ...s.tablaTexto, fontFamily: "'Montserrat', sans-serif", fontWeight: '600', color: o.monto ? '#E8EDF2' : '#4A5A6A' }}>
                   {o.monto ? clp(o.monto) : '—'}
                 </span>
                 <span style={{ ...s.estadoBadge, backgroundColor: est.bg, color: est.color }}>{o.estado}</span>
@@ -136,29 +136,29 @@ export default function Reportes() {
 const s = {
   wrap: { maxWidth: '920px' },
   header: { marginBottom: '1.75rem' },
-  titulo: { fontFamily: "'Syne', sans-serif", fontWeight: '800', fontSize: '1.75rem', color: '#E8EDF2', letterSpacing: '-0.04em' },
-  sub: { fontSize: '0.8rem', color: '#4A5A6A', marginTop: '0.3rem', fontFamily: "'DM Sans', sans-serif" },
+  titulo: { fontFamily: "'Montserrat', sans-serif", fontWeight: '800', fontSize: '1.75rem', color: '#E8EDF2', letterSpacing: '-0.04em' },
+  sub: { fontSize: '0.8rem', color: '#4A5A6A', marginTop: '0.3rem', fontFamily: "'Montserrat', sans-serif" },
   kpiGrid: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' },
   kpi: { backgroundColor: '#111820', border: '1px solid #1E2D3D', borderRadius: '12px', padding: '1.2rem 1.4rem' },
-  kpiLabel: { fontSize: '0.68rem', color: '#4A5A6A', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: "'DM Sans', sans-serif", fontWeight: '600', marginBottom: '0.4rem' },
-  kpiValor: { fontFamily: "'Syne', sans-serif", fontWeight: '800', fontSize: '1.3rem', color: '#E8EDF2', letterSpacing: '-0.03em' },
-  kpiSub: { fontSize: '0.72rem', color: '#4A5A6A', fontFamily: "'DM Sans', sans-serif", marginTop: '0.2rem' },
+  kpiLabel: { fontSize: '0.68rem', color: '#4A5A6A', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: "'Montserrat', sans-serif", fontWeight: '600', marginBottom: '0.4rem' },
+  kpiValor: { fontFamily: "'Montserrat', sans-serif", fontWeight: '800', fontSize: '1.3rem', color: '#E8EDF2', letterSpacing: '-0.03em' },
+  kpiSub: { fontSize: '0.72rem', color: '#4A5A6A', fontFamily: "'Montserrat', sans-serif", marginTop: '0.2rem' },
   section: { backgroundColor: '#111820', border: '1px solid #1E2D3D', borderRadius: '14px', padding: '1.5rem', marginBottom: '1.25rem' },
-  sectionTitle: { fontFamily: "'Syne', sans-serif", fontWeight: '700', fontSize: '0.95rem', color: '#E8EDF2', marginBottom: '1.1rem' },
+  sectionTitle: { fontFamily: "'Montserrat', sans-serif", fontWeight: '700', fontSize: '0.95rem', color: '#E8EDF2', marginBottom: '1.1rem' },
   barChart: { display: 'flex', gap: '0.75rem', alignItems: 'flex-end', height: '160px' },
   barCol: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' },
-  barValor: { fontSize: '0.62rem', color: '#7A8FA6', fontFamily: "'DM Sans', sans-serif", marginBottom: '0.3rem', textAlign: 'center', whiteSpace: 'nowrap' },
+  barValor: { fontSize: '0.62rem', color: '#7A8FA6', fontFamily: "'Montserrat', sans-serif", marginBottom: '0.3rem', textAlign: 'center', whiteSpace: 'nowrap' },
   barTrack: { flex: 1, width: '100%', backgroundColor: '#0A0E14', borderRadius: '6px', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' },
   barFill: { width: '100%', borderRadius: '6px', transition: 'height 0.4s ease' },
-  barLabel: { fontSize: '0.72rem', color: '#7A8FA6', fontFamily: "'DM Sans', sans-serif", marginTop: '0.4rem' },
+  barLabel: { fontSize: '0.72rem', color: '#7A8FA6', fontFamily: "'Montserrat', sans-serif", marginTop: '0.4rem' },
   tableTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' },
   filtros: { display: 'flex', gap: '0.4rem' },
-  filtroBtn: { padding: '0.3rem 0.8rem', borderRadius: '20px', border: '1px solid #1E2D3D', backgroundColor: 'transparent', WebkitAppearance: 'none', color: '#7A8FA6', fontFamily: "'DM Sans', sans-serif", fontSize: '0.75rem', cursor: 'pointer' },
+  filtroBtn: { padding: '0.3rem 0.8rem', borderRadius: '20px', border: '1px solid #1E2D3D', backgroundColor: 'transparent', WebkitAppearance: 'none', color: '#7A8FA6', fontFamily: "'Montserrat', sans-serif", fontSize: '0.75rem', cursor: 'pointer' },
   filtroBtnActivo: { backgroundColor: 'rgba(0,200,150,0.1)', borderColor: 'rgba(0,200,150,0.3)', color: '#00C896' },
   tabla: { backgroundColor: '#0A0E14', borderRadius: '10px', overflow: 'hidden', border: '1px solid #1A2535' },
-  tablaHeader: { display: 'grid', gridTemplateColumns: '0.7fr 2fr 1fr 1fr 0.8fr', padding: '0.65rem 1rem', borderBottom: '1px solid #1E2D3D', fontSize: '0.65rem', fontWeight: '600', color: '#4A5A6A', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: "'DM Sans', sans-serif" },
+  tablaHeader: { display: 'grid', gridTemplateColumns: '0.7fr 2fr 1fr 1fr 0.8fr', padding: '0.65rem 1rem', borderBottom: '1px solid #1E2D3D', fontSize: '0.65rem', fontWeight: '600', color: '#4A5A6A', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: "'Montserrat', sans-serif" },
   tablaFila: { display: 'grid', gridTemplateColumns: '0.7fr 2fr 1fr 1fr 0.8fr', padding: '0.85rem 1rem', borderBottom: '1px solid #111820', alignItems: 'center' },
-  tablaTexto: { fontSize: '0.85rem', color: '#C8D8E8', fontFamily: "'DM Sans', sans-serif" },
-  formularioBadge: { fontSize: '0.7rem', fontWeight: '700', color: '#4A90E2', backgroundColor: 'rgba(74,144,226,0.1)', padding: '2px 8px', borderRadius: '6px', fontFamily: "'DM Sans', sans-serif', textAlign: 'center'" },
-  estadoBadge: { fontSize: '0.68rem', fontWeight: '600', padding: '3px 9px', borderRadius: '20px', fontFamily: "'DM Sans', sans-serif", textAlign: 'center' },
+  tablaTexto: { fontSize: '0.85rem', color: '#C8D8E8', fontFamily: "'Montserrat', sans-serif" },
+  formularioBadge: { fontSize: '0.7rem', fontWeight: '700', color: '#4A90E2', backgroundColor: 'rgba(74,144,226,0.1)', padding: '2px 8px', borderRadius: '6px', fontFamily: "'Montserrat', sans-serif', textAlign: 'center'" },
+  estadoBadge: { fontSize: '0.68rem', fontWeight: '600', padding: '3px 9px', borderRadius: '20px', fontFamily: "'Montserrat', sans-serif", textAlign: 'center' },
 };

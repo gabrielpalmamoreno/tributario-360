@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 export default function Login({ onLogin }) {
   const [rol, setRol] = useState('cliente');
@@ -62,7 +63,7 @@ export default function Login({ onLogin }) {
         </div>
 
         {error && <p style={s.error}>{error}</p>}
-        <button style={s.btnLogin} onClick={ingresar}>Ingresar →</button>
+        <button style={s.btnLogin} onClick={ingresar}>Ingresar <ArrowRight size={16} /></button>
 
         <div style={s.demoInfo}>
           <p style={s.demoTitle}>Cuentas demo</p>
@@ -75,21 +76,21 @@ export default function Login({ onLogin }) {
 }
 
 const s = {
-  bg: { minHeight: '100vh', backgroundColor: '#0A0E14', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'DM Sans', sans-serif" },
+  bg: { minHeight: '100vh', backgroundColor: '#0A0E14', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Montserrat', sans-serif" },
   card: { backgroundColor: '#111820', border: '1px solid #1E2D3D', borderRadius: '20px', padding: '2.5rem', width: '380px', display: 'flex', flexDirection: 'column', gap: '1rem' },
   logoRow: { display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.25rem' },
-  logoMark: { width: '36px', height: '36px', borderRadius: '10px', backgroundColor: '#00C896', color: '#0A0E14', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne', sans-serif", fontWeight: '800', fontSize: '1.1rem', lineHeight: '36px', textAlign: 'center' },
-  logoText: { fontFamily: "'Syne', sans-serif", fontWeight: '700', fontSize: '1.2rem', color: '#E8EDF2', letterSpacing: '-0.02em' },
+  logoMark: { width: '36px', height: '36px', borderRadius: '10px', backgroundColor: '#00C896', color: '#0A0E14', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Montserrat', sans-serif", fontWeight: '800', fontSize: '1.1rem', lineHeight: '36px', textAlign: 'center' },
+  logoText: { fontFamily: "'Montserrat', sans-serif", fontWeight: '700', fontSize: '1.2rem', color: '#E8EDF2', letterSpacing: '-0.02em' },
   accent: { color: '#00C896' },
   sub: { fontSize: '0.8rem', color: '#4A5A6A', marginTop: '-0.5rem' },
   rolTabs: { display: 'flex', backgroundColor: '#0A0E14', borderRadius: '10px', padding: '3px', gap: '3px' },
-  rolBtn: { flex: 1, padding: '0.5rem', borderRadius: '7px', border: 'none', WebkitAppearance: 'none', backgroundColor: 'transparent', color: '#7A8FA6', fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.15s' },
+  rolBtn: { flex: 1, padding: '0.5rem', borderRadius: '7px', border: 'none', WebkitAppearance: 'none', backgroundColor: 'transparent', color: '#7A8FA6', fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.15s' },
   rolBtnActivo: { backgroundColor: '#151D27', color: '#E8EDF2', fontWeight: '600' },
   campo: { display: 'flex', flexDirection: 'column', gap: '0.4rem' },
   label: { fontSize: '0.72rem', color: '#7A8FA6', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.05em' },
-  input: { backgroundColor: '#0A0E14', border: '1px solid #1E2D3D', borderRadius: '9px', padding: '0.7rem 1rem', color: '#E8EDF2', fontFamily: "'DM Sans', sans-serif", fontSize: '0.9rem', outline: 'none', transition: 'border-color 0.15s' },
+  input: { backgroundColor: '#0A0E14', border: '1px solid #1E2D3D', borderRadius: '9px', padding: '0.7rem 1rem', color: '#E8EDF2', fontFamily: "'Montserrat', sans-serif", fontSize: '0.9rem', outline: 'none', transition: 'border-color 0.15s' },
   error: { color: '#FF4D6A', fontSize: '0.8rem', backgroundColor: 'rgba(255,77,106,0.08)', border: '1px solid rgba(255,77,106,0.2)', borderRadius: '8px', padding: '0.5rem 0.8rem' },
-  btnLogin: { padding: '0.75rem', backgroundColor: '#00C896', border: 'none', WebkitAppearance: 'none', borderRadius: '10px', color: '#0A0E14', fontFamily: "'Syne', sans-serif", fontWeight: '700', fontSize: '0.95rem', cursor: 'pointer', marginTop: '0.25rem' },
+  btnLogin: { padding: '0.75rem', backgroundColor: '#00C896', border: 'none', WebkitAppearance: 'none', borderRadius: '10px', color: '#0A0E14', fontFamily: "'Montserrat', sans-serif", fontWeight: '700', fontSize: '0.95rem', cursor: 'pointer', marginTop: '0.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' },
   demoInfo: { backgroundColor: '#0A0E14', borderRadius: '10px', padding: '0.9rem', border: '1px solid #1A2535', marginTop: '0.25rem' },
   demoTitle: { fontSize: '0.7rem', color: '#4A5A6A', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.4rem' },
   demoLine: { fontSize: '0.78rem', color: '#7A8FA6', marginTop: '0.2rem' },

@@ -71,8 +71,8 @@ const styles = {
     marginBottom: '1.1rem',
   },
   cardIcon: {
-    fontSize: '1.4rem',
-    lineHeight: 1,
+    display: 'flex',
+    color: '#7A8FA6',
   },
   tag: {
     fontSize: '0.68rem',
@@ -80,7 +80,7 @@ const styles = {
     padding: '3px 8px',
     borderRadius: '20px',
     letterSpacing: '0.03em',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   cardBody: {
     display: 'flex',
@@ -88,7 +88,7 @@ const styles = {
     gap: '0.25rem',
   },
   cardValue: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '700',
     fontSize: '1.7rem',
     color: '#E8EDF2',
@@ -100,14 +100,14 @@ const styles = {
     fontWeight: '500',
     color: '#7A8FA6',
     marginTop: '0.2rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     textTransform: 'uppercase',
     letterSpacing: '0.06em',
   },
   cardSubtitle: {
     fontSize: '0.78rem',
     color: '#4A5A6A',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     marginTop: '0.3rem',
   },
   cardAccentLine: {

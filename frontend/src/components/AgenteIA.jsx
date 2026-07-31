@@ -1,4 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { marked } from 'marked';
+import { Paperclip, X, AlertTriangle, ArrowUp } from 'lucide-react';
+
+marked.setOptions({ breaks: true, gfm: true });
+
+const TIPOS_ACEPTADOS = 'image/*,.pdf,.txt,.csv';
+const MAX_BYTES = 10 * 1024 * 1024; // 10MB
+
+function leerArchivoComoBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const resultado = reader.result;
+      const base64 = resultado.slice(resultado.indexOf(',') + 1);
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 const SUGERENCIAS = [
   '¿Cuándo vence el F29 de este mes?',
@@ -51,7 +71,10 @@ export default function AgenteIA({ sesion }) {
   const [mensajes, setMensajes] = useState([MSG_BIENVENIDA]);
   const [input, setInput] = useState('');
   const [cargando, setCargando] = useState(false);
+  const [archivo, setArchivo] = useState(null); // { nombre, tipo, datos, previewUrl }
+  const [errorArchivo, setErrorArchivo] = useState('');
   const bottomRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -81,15 +104,27 @@ export default function AgenteIA({ sesion }) {
 
   async function enviar(texto) {
     const pregunta = texto ?? input.trim();
-    if (!pregunta || cargando) return;
+    const adjunto = archivo;
+    if ((!pregunta && !adjunto) || cargando) return;
     setInput('');
-    setMensajes(prev => [...prev, { rol: 'usuario', texto: pregunta }]);
+    setArchivo(null);
+    setMensajes(prev => [
+      ...prev,
+      {
+        rol: 'usuario',
+        texto: pregunta || `Analiza el archivo adjunto: ${adjunto.nombre}`,
+        archivo: adjunto ? { nombre: adjunto.nombre, tipo: adjunto.tipo, previewUrl: adjunto.previewUrl } : undefined,
+      },
+    ]);
     setCargando(true);
     try {
       const res = await fetch('/api/agente', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pregunta }),
+        body: JSON.stringify({
+          pregunta,
+          archivo: adjunto ? { nombre: adjunto.nombre, tipo: adjunto.tipo, datos: adjunto.datos } : undefined,
+        }),
       });
       const data = await res.json();
       setMensajes(prev => [
@@ -99,10 +134,32 @@ export default function AgenteIA({ sesion }) {
     } catch {
       setMensajes(prev => [
         ...prev,
-        { rol: 'agente', texto: '⚠ No se pudo conectar con el backend.', error: true },
+        { rol: 'agente', texto: 'No se pudo conectar con el backend.', error: true },
       ]);
     } finally {
       setCargando(false);
+    }
+  }
+
+  async function seleccionarArchivo(e) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    setErrorArchivo('');
+    if (file.size > MAX_BYTES) {
+      setErrorArchivo('El archivo supera los 10MB.');
+      return;
+    }
+    try {
+      const datos = await leerArchivoComoBase64(file);
+      setArchivo({
+        nombre: file.name,
+        tipo: file.type || 'application/octet-stream',
+        datos,
+        previewUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : null,
+      });
+    } catch {
+      setErrorArchivo('No se pudo leer el archivo.');
     }
   }
 
@@ -161,7 +218,7 @@ export default function AgenteIA({ sesion }) {
                 style={s.eliminarBtn}
                 onClick={e => eliminarChat(e, i)}
                 title="Eliminar"
-              >✕</button>
+              ><X size={13} /></button>
             </div>
           ))}
         </div>
@@ -194,9 +251,28 @@ export default function AgenteIA({ sesion }) {
                 ...(m.rol === 'usuario' ? s.burbujaUsuario : s.burbujaAgente),
                 ...(m.error ? s.burbujaError : {}),
               }}>
-                {m.texto.split('\n').map((linea, j) => (
-                  <p key={j} style={{ margin: j > 0 ? '0.4rem 0 0' : 0 }}>{linea}</p>
-                ))}
+                {m.archivo && (
+                  <div style={s.archivoChip}>
+                    {m.archivo.previewUrl ? (
+                      <img src={m.archivo.previewUrl} alt={m.archivo.nombre} style={s.archivoThumb} />
+                    ) : (
+                      <span style={s.archivoIcono}><Paperclip size={14} /></span>
+                    )}
+                    <span style={s.archivoNombre}>{m.archivo.nombre}</span>
+                  </div>
+                )}
+                {m.error ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <AlertTriangle size={15} style={{ flexShrink: 0 }} />
+                    <span>{m.texto}</span>
+                  </div>
+                ) : m.rol === 'agente' ? (
+                  <div className="md-content" dangerouslySetInnerHTML={{ __html: marked.parse(m.texto) }} />
+                ) : (
+                  m.texto.split('\n').map((linea, j) => (
+                    <p key={j} style={{ margin: j > 0 ? '0.4rem 0 0' : 0 }}>{linea}</p>
+                  ))
+                )}
               </div>
             </div>
           ))}
@@ -212,10 +288,38 @@ export default function AgenteIA({ sesion }) {
           <div ref={bottomRef} />
         </div>
 
+        {errorArchivo && <p style={s.errorArchivo}>{errorArchivo}</p>}
+
+        {archivo && (
+          <div style={s.adjuntoPreview}>
+            {archivo.previewUrl ? (
+              <img src={archivo.previewUrl} alt={archivo.nombre} style={s.archivoThumb} />
+            ) : (
+              <span style={s.archivoIcono}><Paperclip size={14} /></span>
+            )}
+            <span style={s.archivoNombre}>{archivo.nombre}</span>
+            <button style={s.quitarAdjuntoBtn} onClick={() => setArchivo(null)} title="Quitar adjunto"><X size={13} /></button>
+          </div>
+        )}
+
         <div style={s.inputArea}>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={seleccionarArchivo}
+            accept={TIPOS_ACEPTADOS}
+            style={{ display: 'none' }}
+          />
+          <button
+            style={s.adjuntarBtn}
+            onClick={() => fileInputRef.current?.click()}
+            disabled={cargando}
+            title="Adjuntar archivo"
+            type="button"
+          ><Paperclip size={16} /></button>
           <textarea
             style={s.textarea}
-            placeholder="Escribe tu consulta tributaria... (Enter para enviar)"
+            placeholder={archivo ? 'Agrega instrucciones sobre el archivo (opcional)...' : 'Escribe tu consulta tributaria... (Enter para enviar)'}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKey}
@@ -223,11 +327,11 @@ export default function AgenteIA({ sesion }) {
             disabled={cargando}
           />
           <button
-            style={{ ...s.enviarBtn, ...((!input.trim() || cargando) ? s.enviarBtnDisabled : {}) }}
+            style={{ ...s.enviarBtn, ...((!input.trim() && !archivo) || cargando ? s.enviarBtnDisabled : {}) }}
             onClick={() => enviar()}
-            disabled={!input.trim() || cargando}
+            disabled={(!input.trim() && !archivo) || cargando}
           >
-            {cargando ? '…' : '↑'}
+            {cargando ? '…' : <ArrowUp size={16} />}
           </button>
         </div>
       </div>
@@ -261,7 +365,7 @@ const s = {
     borderBottom: '1px solid #1E2D3D',
   },
   historialTitulo: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '700',
     fontSize: '0.82rem',
     color: '#E8EDF2',
@@ -272,7 +376,7 @@ const s = {
     border: '1px solid rgba(0,200,150,0.25)',
     borderRadius: '6px',
     color: '#00C896',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontSize: '0.72rem',
     fontWeight: '600',
     cursor: 'pointer',
@@ -289,7 +393,7 @@ const s = {
   historialVacio: {
     fontSize: '0.75rem',
     color: '#4A5A6A',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     textAlign: 'center',
     padding: '1.5rem 0.5rem',
     lineHeight: 1.5,
@@ -314,7 +418,7 @@ const s = {
   chatItemTitulo: {
     fontSize: '0.75rem',
     color: '#C8D8E8',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     lineHeight: 1.4,
     overflow: 'hidden',
     display: '-webkit-box',
@@ -324,7 +428,7 @@ const s = {
   chatItemFecha: {
     fontSize: '0.65rem',
     color: '#4A5A6A',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     marginTop: '0.2rem',
   },
   eliminarBtn: {
@@ -333,7 +437,8 @@ const s = {
     WebkitAppearance: 'none',
     color: '#4A5A6A',
     cursor: 'pointer',
-    fontSize: '0.65rem',
+    display: 'flex',
+    alignItems: 'center',
     padding: '2px 4px',
     borderRadius: '4px',
     flexShrink: 0,
@@ -354,7 +459,7 @@ const s = {
     marginBottom: '1.25rem',
   },
   titulo: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '800',
     fontSize: '1.75rem',
     color: '#E8EDF2',
@@ -364,7 +469,7 @@ const s = {
     fontSize: '0.78rem',
     color: '#4A5A6A',
     marginTop: '0.3rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   badge: {
     fontSize: '0.7rem',
@@ -373,7 +478,7 @@ const s = {
     backgroundColor: 'rgba(0,200,150,0.1)',
     border: '1px solid rgba(0,200,150,0.2)',
     color: '#00C896',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '500',
     whiteSpace: 'nowrap',
   },
@@ -390,7 +495,7 @@ const s = {
     backgroundColor: '#111820',
     color: '#7A8FA6',
     fontSize: '0.76rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     cursor: 'pointer',
     WebkitAppearance: 'none',
   },
@@ -417,7 +522,7 @@ const s = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '800',
     fontSize: '0.8rem',
     flexShrink: 0,
@@ -429,7 +534,7 @@ const s = {
     borderRadius: '12px',
     fontSize: '0.875rem',
     lineHeight: '1.65',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   burbujaAgente: {
     backgroundColor: '#151D27',
@@ -463,7 +568,7 @@ const s = {
     border: 'none',
     outline: 'none',
     color: '#E8EDF2',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontSize: '0.875rem',
     lineHeight: '1.5',
     resize: 'none',
@@ -488,5 +593,79 @@ const s = {
   enviarBtnDisabled: {
     opacity: 0.35,
     cursor: 'not-allowed',
+  },
+  adjuntarBtn: {
+    width: '36px',
+    height: '36px',
+    borderRadius: '8px',
+    border: '1px solid #1E2D3D',
+    backgroundColor: 'transparent',
+    color: '#7A8FA6',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    WebkitAppearance: 'none',
+  },
+  adjuntoPreview: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.5rem 0.75rem',
+    marginBottom: '0.6rem',
+    backgroundColor: '#111820',
+    border: '1px solid #1E2D3D',
+    borderRadius: '10px',
+    width: 'fit-content',
+    maxWidth: '100%',
+  },
+  errorArchivo: {
+    fontSize: '0.75rem',
+    color: '#FF4D6A',
+    fontFamily: "'Montserrat', sans-serif",
+    marginBottom: '0.5rem',
+  },
+  archivoChip: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    marginBottom: '0.5rem',
+    padding: '0.35rem 0.6rem',
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    borderRadius: '8px',
+    width: 'fit-content',
+    maxWidth: '100%',
+  },
+  archivoThumb: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '6px',
+    objectFit: 'cover',
+    flexShrink: 0,
+  },
+  archivoIcono: {
+    display: 'flex',
+    flexShrink: 0,
+  },
+  archivoNombre: {
+    fontSize: '0.75rem',
+    color: '#C8D8E8',
+    fontFamily: "'Montserrat', sans-serif",
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  quitarAdjuntoBtn: {
+    background: 'none',
+    border: 'none',
+    WebkitAppearance: 'none',
+    color: '#4A5A6A',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '2px 4px',
+    flexShrink: 0,
   },
 };

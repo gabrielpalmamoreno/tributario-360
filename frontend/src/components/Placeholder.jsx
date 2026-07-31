@@ -1,4 +1,5 @@
 import React from 'react';
+import { Construction } from 'lucide-react';
 
 export default function Placeholder({ titulo, descripcion }) {
   return (
@@ -7,7 +8,7 @@ export default function Placeholder({ titulo, descripcion }) {
         <h1 style={s.titulo}>{titulo}</h1>
       </div>
       <div style={s.card}>
-        <span style={s.icono}>◈</span>
+        <span style={s.icono}><Construction size={32} /></span>
         <p style={s.texto}>{descripcion}</p>
         <span style={s.tag}>Próximamente</span>
       </div>
@@ -19,7 +20,7 @@ const s = {
   wrap: { maxWidth: '600px' },
   header: { marginBottom: '2rem' },
   titulo: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '800',
     fontSize: '1.75rem',
     color: '#E8EDF2',
@@ -37,13 +38,13 @@ const s = {
     textAlign: 'center',
   },
   icono: {
-    fontSize: '2rem',
-    color: '#1E2D3D',
+    display: 'flex',
+    color: '#2A3D50',
   },
   texto: {
     fontSize: '0.9rem',
     color: '#7A8FA6',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     lineHeight: '1.6',
     maxWidth: '380px',
   },
@@ -55,6 +56,6 @@ const s = {
     backgroundColor: 'rgba(0,200,150,0.1)',
     border: '1px solid rgba(0,200,150,0.2)',
     color: '#00C896',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
 };

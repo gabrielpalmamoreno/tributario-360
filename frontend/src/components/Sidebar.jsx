@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { LayoutDashboard, TrendingUp, Receipt, FileText, Bot, Users, BarChart3, LogOut } from 'lucide-react';
 
 const navItems = [
-  { icon: '▦', label: 'Dashboard', active: true },
-  { icon: '◈', label: 'Indicadores' },
-  { icon: '◻', label: 'Formulario F29' },
-  { icon: '◻', label: 'Formulario F22' },
-  { icon: '◈', label: 'Agente IA' },
-  { icon: '◻', label: 'Clientes' },
-  { icon: '◻', label: 'Reportes' },
+  { icon: LayoutDashboard, label: 'Dashboard', active: true },
+  { icon: TrendingUp, label: 'Indicadores' },
+  { icon: Receipt, label: 'Formulario F29' },
+  { icon: FileText, label: 'Formulario F22' },
+  { icon: Bot, label: 'Agente IA' },
+  { icon: Users, label: 'Clientes' },
+  { icon: BarChart3, label: 'Reportes' },
 ];
 
 export default function Sidebar({ activeView, setActiveView, onLogout, rol }) {
@@ -31,7 +32,7 @@ export default function Sidebar({ activeView, setActiveView, onLogout, rol }) {
             }}
             onClick={() => setActiveView(item.label)}
           >
-            <span style={styles.navIcon}>{item.icon}</span>
+            <span style={styles.navIcon}><item.icon size={15} /></span>
             <span>{item.label}</span>
             {active === item.label && <span style={styles.navDot} />}
           </button>
@@ -45,7 +46,7 @@ export default function Sidebar({ activeView, setActiveView, onLogout, rol }) {
           <p style={styles.userRole}>{rol === 'admin' ? 'Admin' : 'Usuario'}</p>
         </div>
         {onLogout && (
-          <button style={styles.logoutBtn} onClick={onLogout} title="Cerrar sesión">⏻</button>
+          <button style={styles.logoutBtn} onClick={onLogout} title="Cerrar sesión"><LogOut size={16} /></button>
         )}
       </div>
     </aside>
@@ -79,7 +80,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '800',
     fontSize: '1rem',
     flexShrink: 0,
@@ -87,7 +88,7 @@ const styles = {
     textAlign: 'center',
   },
   logoText: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '700',
     fontSize: '1.05rem',
     color: '#E8EDF2',
@@ -111,7 +112,7 @@ const styles = {
     padding: '0 0.5rem',
     marginBottom: '0.5rem',
     marginTop: '0.25rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
   },
   navItem: {
     display: 'flex',
@@ -124,7 +125,7 @@ const styles = {
     WebkitAppearance: 'none',
     appearance: 'none',
     color: '#7A8FA6',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontSize: '0.875rem',
     fontWeight: '400',
     cursor: 'pointer',
@@ -139,7 +140,8 @@ const styles = {
     fontWeight: '500',
   },
   navIcon: {
-    fontSize: '0.8rem',
+    display: 'flex',
+    alignItems: 'center',
     opacity: 0.7,
   },
   navDot: {
@@ -167,7 +169,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     color: '#00C896',
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontWeight: '700',
     fontSize: '0.85rem',
     flexShrink: 0,
@@ -188,9 +190,11 @@ const styles = {
     WebkitAppearance: 'none',
     color: '#4A5A6A',
     cursor: 'pointer',
-    fontSize: '1rem',
     padding: '4px',
     borderRadius: '6px',
     flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 };
