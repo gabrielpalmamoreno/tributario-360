@@ -1,10 +1,12 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+let ultimoValorConocido = null;
+
 async function getIndicadores() {
   try {
     const { data } = await axios.get('https://mindicador.cl/api', { timeout: 8000 });
-    return {
+    const resultado = {
       uf: {
         valor: data.uf?.valor ?? null,
         fecha: data.uf?.fecha ?? null,
@@ -23,8 +25,14 @@ async function getIndicadores() {
       },
       iva: 0.19,
       proximoVencimientoF29: calcularVencimientoF29(),
+      desactualizado: false,
     };
+    ultimoValorConocido = resultado;
+    return resultado;
   } catch (error) {
+    if (ultimoValorConocido) {
+      return { ...ultimoValorConocido, desactualizado: true };
+    }
     throw new Error(`No se pudo obtener indicadores: ${error.message}`);
   }
 }

@@ -24,12 +24,17 @@ const FILAS = [
 export default function Indicadores() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errorCarga, setErrorCarga] = useState(false);
 
   useEffect(() => {
     fetch('/api/indicadores')
       .then((r) => r.json())
-      .then((d) => { setData(d); setLoading(false); })
-      .catch(() => setLoading(false));
+      .then((d) => {
+        if (d?.error) { setErrorCarga(true); setData(null); }
+        else { setData(d); }
+        setLoading(false);
+      })
+      .catch(() => { setErrorCarga(true); setLoading(false); });
   }, []);
 
   return (
@@ -38,6 +43,17 @@ export default function Indicadores() {
         <h1 style={s.titulo}>Indicadores Económicos</h1>
         <p style={s.sub}>Fuente: Banco Central de Chile · mindicador.cl</p>
       </div>
+
+      {!loading && errorCarga && (
+        <p style={s.aviso}>
+          No se pudieron obtener los indicadores en este momento porque el servicio externo (mindicador.cl) no está respondiendo. Vuelve a intentarlo más tarde.
+        </p>
+      )}
+      {!loading && !errorCarga && data?.desactualizado && (
+        <p style={s.avisoAmarillo}>
+          Mostrando el último valor disponible; el servicio externo no respondió en esta actualización.
+        </p>
+      )}
 
       <div style={s.tabla}>
         <div style={s.theader}>
@@ -83,6 +99,24 @@ const s = {
     color: '#4A5A6A',
     marginTop: '0.3rem',
     fontFamily: "'Montserrat', sans-serif",
+  },
+  aviso: {
+    backgroundColor: '#2A1218',
+    border: '1px solid #4A1E28',
+    color: '#FF4D6A',
+    fontSize: '0.85rem',
+    borderRadius: '8px',
+    padding: '0.75rem 1rem',
+    marginBottom: '1.25rem',
+  },
+  avisoAmarillo: {
+    backgroundColor: '#2A2412',
+    border: '1px solid #4A3E1E',
+    color: '#E0B84D',
+    fontSize: '0.85rem',
+    borderRadius: '8px',
+    padding: '0.75rem 1rem',
+    marginBottom: '1.25rem',
   },
   tabla: {
     backgroundColor: '#111820',
