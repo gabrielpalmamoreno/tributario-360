@@ -88,6 +88,11 @@ tributario-360/
 - `WebkitAppearance: 'none'` en todos los `<button>` para evitar estilos nativos del OS en macOS
 - El proxy de Vite (`/api → localhost:3001`) evita CORS en desarrollo
 
+## Notas operativas
+
+- `/api/indicadores` depende de la API pública `mindicador.cl`, que a veces se cae. `sii-scraper.js` cachea en memoria el último valor exitoso y responde con `desactualizado: true` si la fuente externa falla; `Indicadores.jsx` muestra un aviso en vez de una tabla vacía en ese caso. Si el asistente o los indicadores parecen "no funcionar", revisar primero los logs HTTP/deploy en Railway antes de asumir un bug propio.
+- El agente IA (`backend/agente.js`) usa el modelo Anthropic `claude-sonnet-4-6` hasta 2026-08-31, actualizado a `claude-sonnet-5` en esa fecha por lentitud (~21s → ~4s). Revisar periódicamente si sigue siendo el modelo recomendado vigente.
+
 ## Próximos pasos sugeridos
 
 - Autenticación real con JWT (backend)
