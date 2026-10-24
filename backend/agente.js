@@ -58,7 +58,9 @@ async function consultarAgente(pregunta, archivo) {
       { role: 'user', content: construirContenido(pregunta, archivo) }
     ],
   });
-  return message.content[0].text;
+  const texto = message.content.filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+  if (!texto) throw new Error(`Respuesta sin texto (stop_reason: ${message.stop_reason})`);
+  return texto;
 }
 
 module.exports = { consultarAgente };

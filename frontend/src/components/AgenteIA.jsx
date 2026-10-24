@@ -231,7 +231,7 @@ export default function AgenteIA({ sesion }) {
             <h1 style={s.titulo}>Agente Tributario IA</h1>
             <p style={s.subtitulo}>Normativa chilena · SII · F29 · F22 · Renta · Optimización</p>
           </div>
-          <span style={s.badge}>Claude claude-sonnet-4-6</span>
+          <span style={s.badge}>Claude Sonnet 5</span>
         </div>
 
         {mensajes.length === 1 && (
